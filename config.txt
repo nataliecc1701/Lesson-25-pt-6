@@ -1,0 +1,5 @@
+SQLALCHEMY_DATABASE_URI         postgresql:///lesson25-feedback
+SQLALCHEMY_TRACK_MODIFICATIONS  False
+SQLALCHEMY_ECHO                 True
+SECRET_KEY                      SHHHHH!
+DEBUG_TB_INTERCEPT_REDIRECTS    False
