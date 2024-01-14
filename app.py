@@ -114,5 +114,15 @@ def edit_feedback(feedback_id):
         write_data(feedback)
         return redirect(f"/users/{feedback.username}")
     return render_template("edit-feedback.html", form=form, feedback=feedback)
+
+@app.route("/feedback/<int:feedback_id>/delete", methods=["POST"])
+def delete_feedback(feedback_id):
+    feedback = Feedback.query.get_or_404(feedback_id)
+    if "username" not in session:
+        return redirect("/")
+    if session["username"] != feedback.username:
+        return redirect(f"/users/{session['username']}")
     
-    
+    Feedback.query.filter_by(id=feedback_id).delete()
+    db.session.commit()
+    return redirect(f"/users/{session['username']}")

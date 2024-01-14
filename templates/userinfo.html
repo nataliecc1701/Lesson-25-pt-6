@@ -35,7 +35,8 @@
 <ul>
   {% for post in user.feedback %}
   <li><strong><a href="/feedback/{{post.id}}/update">{{post.title}}</a></strong>
-  <div>{{post.content}}</div></li>
+  <div>{{post.content}}</div>
+  <form display="inline" action="/feedback/{{post.id}}/delete" method="post"><button>X</button></form></li>
   {% endfor %}
 </ul>
 {% endblock %}
