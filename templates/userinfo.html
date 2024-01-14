@@ -34,7 +34,7 @@
 <h3>Feedback Given:</h3>
 <ul>
   {% for post in user.feedback %}
-  <li><strong>{{post.title}}</strong>
+  <li><strong><a href="/feedback/{{post.id}}/update">{{post.title}}</a></strong>
   <div>{{post.content}}</div></li>
   {% endfor %}
 </ul>

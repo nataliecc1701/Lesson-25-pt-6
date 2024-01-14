@@ -16,10 +16,14 @@ connect_db(app)
 # Routes
 @app.route("/")
 def redir_index():
+    if "username" in session:
+        return redirect(f"/users/{session.username}")
     return redirect("/register")
 
 @app.route("/register", methods=["GET", "POST"])
 def register_user():
+    if "username" in session:
+        return redirect(f"/users/{session.username}")
     form = RegisterForm()
     if form.validate_on_submit():
         new_user = User.register(username = form.username.data,
@@ -40,6 +44,8 @@ def register_user():
 
 @app.route("/login", methods=["GET", "POST"])
 def login_user():
+    if "username" in session:
+        return redirect(f"/users/{session.username}")
     form = LoginForm()
     if form.validate_on_submit():
         user = User.authenticate(form.username.data, form.password.data)
@@ -92,3 +98,21 @@ def delete_user(username):
     db.session.commit()
     session.pop("username")
     return redirect("/")
+
+@app.route("/feedback/<int:feedback_id>/update", methods=["GET", "POST"])
+def edit_feedback(feedback_id):
+    feedback = Feedback.query.get_or_404(feedback_id)
+    if "username" not in session:
+        return redirect("/")
+    if session["username"] != feedback.username:
+        return redirect(f"/users/{session['username']}")
+    
+    form = FeedbackForm(obj=feedback)
+    if form.validate_on_submit():
+        feedback.title = form.title.data
+        feedback.content = form.content.data
+        write_data(feedback)
+        return redirect(f"/users/{feedback.username}")
+    return render_template("edit-feedback.html", form=form, feedback=feedback)
+    
+    
