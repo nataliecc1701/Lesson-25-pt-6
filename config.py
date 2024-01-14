@@ -1,4 +1,4 @@
-"""General Purpose Configuration File Parser v 0.1
+"""Flask Configuration File Parser v 0.1
 
 By Natalie Chapman on 2024/01/13"""
 
