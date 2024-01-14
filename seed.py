@@ -15,7 +15,7 @@ db.session.add_all(users)
 db.session.commit()
 
 feedback = [
-    Feedback(title="I have always lived", content="I have never been killed and do not intend to start now", username="NinthSaint"),
+    Feedback(title="I have always lived", content="I have never been murdered before and I truly don't intend to start now", username="NinthSaint"),
     Feedback(title="Bock Bock", content="cluck!", username="StevieChicks"),
 ]
 
