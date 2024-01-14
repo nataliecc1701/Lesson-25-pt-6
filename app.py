@@ -67,5 +67,17 @@ def log_out_user():
 def show_user_info(username):
     if "username" not in session:
         return redirect("/")
+    if session["username"] != username:
+        return redirect(f"/users/{session['username']}")
     user = User.query.get_or_404(username)
     return render_template("userinfo.html", user=user)
+
+@app.route("/users/<username>/delete")
+def delete_user(username):
+    if "username" not in session:
+        return redirect("/")
+    if session["username"] != username:
+        return redirect(f"/users/{session['username']}")
+    
+    User.query.delete(username)
+    return redirect("/")
