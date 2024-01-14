@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from sqlalchemy.exc import IntegrityError
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -9,6 +10,16 @@ def connect_db(app):
     
     db.app = app
     db.init_app(app)
+    
+def write_data(model):
+    """Take a model and write it to the database. returns True if the data was written successfully
+    returns False for database integrity errors"""
+    db.session.add(model)
+    try:
+        db.session.commit()
+        return True
+    except IntegrityError:
+        return False
 
 # Models follow
 class User(db.Model):
