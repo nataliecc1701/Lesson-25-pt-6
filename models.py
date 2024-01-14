@@ -27,7 +27,11 @@ class User(db.Model):
         hashed = bcrypt.generate_password_hash(pwd)
         hashed_utf8 = hashed.decode("utf8")
         
-        return cls(username=username, password=hashed_utf8, email=email, first_name=first_name, last_name=last_name)
+        return cls(username=username,
+                   password=hashed_utf8,
+                   email=email,
+                   first_name=first_name,
+                   last_name=last_name)
     
     @classmethod
     def authenticate(cls, username, pwd):
@@ -46,8 +50,8 @@ class User(db.Model):
         return f"{self.first_name, self.last_name}"
     
 class Feedback(db.Model):
-    __tablename__: "feedback"
+    __tablename__ = "feedback"
     id      = db.Column(db.Integer, primary_key = True, autoincrement = True)
     title   = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text,        nullable=False)
-    username= db.Column(db.string(20), db.ForeignKey("users.username")) 
+    username= db.Column(db.String(20), db.ForeignKey("users.username")) 
