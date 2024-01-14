@@ -33,7 +33,7 @@ def register_user():
         except IntegrityError:
             form.username.errors.append("username and email must be unique")
             return render_template("register.html", form=form)
-        session["user_id"] = new_user.username
+        session["username"] = new_user.username
         return redirect("/secret")
         
     return render_template("register.html", form=form)
@@ -41,4 +41,13 @@ def register_user():
 @app.route("/login", methods=["GET", "POST"])
 def login_user():
     form = LoginForm()
+    if form.validate_on_submit():
+        user = User.authenticate(form.username.data, form.password.data)
+        if user:
+            flash(f"Welcome back, {user.username}", "primary")
+            session["username"] = user.username
+            return redirect("/secret")
+        else:
+            form.username.errors = ['Invalid username/password']
+        
     return render_template("login.html", form=form)
