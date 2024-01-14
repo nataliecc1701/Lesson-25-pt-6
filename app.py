@@ -44,7 +44,6 @@ def login_user():
     if form.validate_on_submit():
         user = User.authenticate(form.username.data, form.password.data)
         if user:
-            flash(f"Welcome back, {user.username}", "primary")
             session["username"] = user.username
             return redirect("/secret")
         else:
