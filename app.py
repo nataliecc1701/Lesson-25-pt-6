@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 
 # Local imports
 from models import connect_db, db, User
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 from config import configure_app
 
 app = Flask(__name__)
@@ -33,6 +33,12 @@ def register_user():
         except IntegrityError:
             form.username.errors.append("username and email must be unique")
             return render_template("register.html", form=form)
+        session["user_id"] = new_user.username
         return redirect("/secret")
         
     return render_template("register.html", form=form)
+
+@app.route("/login", methods=["GET", "POST"])
+def login_user():
+    form = LoginForm()
+    return render_template("login.html", form=form)
