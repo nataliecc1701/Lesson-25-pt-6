@@ -11,6 +11,8 @@ users = [
     User.register("NinthSaint", "IhttTss4ever", "harrowharkthefirst@mithraeum.gov", "Harrowhark", "Nonagesimus"),
 ]
 
+users[1].is_admin = True
+
 db.session.add_all(users)
 db.session.commit()
 
