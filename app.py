@@ -56,13 +56,6 @@ def login_user():
             form.username.errors = ['Invalid username/password']
         
     return render_template("login.html", form=form)
-
-@app.route("/secret")
-def show_secret():
-    if "username" in session:
-        return("You made it!")
-    else:
-        return redirect("/register")
     
 @app.route("/logout")
 def log_out_user():
