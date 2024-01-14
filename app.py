@@ -4,8 +4,8 @@ from flask import Flask, render_template, redirect, session, flash
 from sqlalchemy.exc import IntegrityError
 
 # Local imports
-from models import connect_db, db, User, Feedback
-from forms import RegisterForm, LoginForm
+from models import connect_db, db, write_data, User, Feedback
+from forms import RegisterForm, LoginForm, FeedbackForm
 from config import configure_app
 
 app = Flask(__name__)
@@ -63,14 +63,23 @@ def log_out_user():
     session.pop("username")
     return redirect("/")
 
-@app.route("/users/<username>")
+@app.route("/users/<username>", methods=["GET", "POST"])
 def show_user_info(username):
     if "username" not in session:
         return redirect("/")
     if session["username"] != username:
         return redirect(f"/users/{session['username']}")
     user = User.query.get_or_404(username)
-    return render_template("userinfo.html", user=user)
+    
+    form = FeedbackForm()
+    if form.validate_on_submit():
+        new_feedback = Feedback(title=form.title.data,
+                                content=form.content.data,
+                                username=username)
+        write_data(new_feedback)
+        return redirect(f"/users/{username}")
+    
+    return render_template("userinfo.html", user=user, form=form)
 
 @app.route("/users/<username>/delete")
 def delete_user(username):
