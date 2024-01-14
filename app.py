@@ -22,11 +22,11 @@ def redir_index():
 def register_user():
     form = RegisterForm()
     if form.validate_on_submit():
-        new_user = User.register(username = form.data.username,
-                                 password = form.data.password,
-                                 email = form.data.email,
-                                 first_name = form.data.first_name,
-                                 last_name = form.data.last_name)
+        new_user = User.register(username = form.username.data,
+                                 pwd = form.password.data,
+                                 email = form.email.data,
+                                 first_name = form.first_name.data,
+                                 last_name = form.last_name.data)
         db.session.add(new_user)
         try:
             db.session.commit()
