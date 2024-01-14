@@ -34,7 +34,7 @@ def register_user():
             form.username.errors.append("username and email must be unique")
             return render_template("register.html", form=form)
         session["username"] = new_user.username
-        return redirect("/secret")
+        return redirect(f"/users/{new_user.username}")
         
     return render_template("register.html", form=form)
 
@@ -45,7 +45,7 @@ def login_user():
         user = User.authenticate(form.username.data, form.password.data)
         if user:
             session["username"] = user.username
-            return redirect("/secret")
+            return redirect(f"/users/{user.username}")
         else:
             form.username.errors = ['Invalid username/password']
         
@@ -62,3 +62,10 @@ def show_secret():
 def log_out_user():
     session.pop("username")
     return redirect("/")
+
+@app.route("/users/<username>")
+def show_user_info(username):
+    if "username" not in session:
+        return redirect("/")
+    user = User.query.get_or_404(username)
+    return render_template("userinfo.html", user=user)

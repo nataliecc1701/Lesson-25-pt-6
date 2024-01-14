@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback Collection: {{user.username}} Profile{% endblock %}
+{% block heading %}User Profile for {{user.username}}{% endblock %}
+
+{% block content %}
+<ul>
+  <li>Username: {{user.username}}</li>
+  <li>Email Address: {{user.email}}</li>
+  <li>Name: {{user.first_name}} {{user.last_name}}</li>
+</ul>
+{% endblock %}
