@@ -81,12 +81,14 @@ def show_user_info(username):
     
     return render_template("userinfo.html", user=user, form=form)
 
-@app.route("/users/<username>/delete")
+@app.route("/users/<username>/delete", methods=["POST"])
 def delete_user(username):
     if "username" not in session:
         return redirect("/")
     if session["username"] != username:
         return redirect(f"/users/{session['username']}")
     
-    User.query.delete(username)
+    User.query.filter_by(username=username).delete()
+    db.session.commit()
+    session.pop("username")
     return redirect("/")

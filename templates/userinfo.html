@@ -8,6 +8,9 @@
   <li>Username: {{user.username}}</li>
   <li>Email Address: {{user.email}}</li>
   <li>Name: {{user.first_name}} {{user.last_name}}</li>
+  <li><form display="inline" method="POST" action="/users/{{user.username}}/delete">
+    <button>Delete Account</button>
+  </form></li>
 </ul>
 <h2>Feedback:</h2>
 <h3>Leave feedback</h3>
