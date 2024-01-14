@@ -40,4 +40,4 @@ class User(db.Model):
         if u and bcrypt.check_password_hash(u.password, pwd):
             return u
         else:
-            return False
+            return None
